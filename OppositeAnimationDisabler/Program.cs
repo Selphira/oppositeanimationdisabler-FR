@@ -4,6 +4,7 @@ using System.Linq;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Synthesis;
 using Mutagen.Bethesda.Skyrim;
+using Mutagen.Bethesda.Strings;
 using Noggog;
 using System.Threading.Tasks;
 
@@ -26,6 +27,14 @@ namespace OppositeAnimationDisabler
                 if (!npc.Configuration.Flags.HasFlag(NpcConfiguration.Flag.OppositeGenderAnims)) continue;
 
                 var modifiedNPc = state.PatchMod.Npcs.GetOrAddAsOverride(npc);
+                
+                if (modifiedNPc.Name != null && modifiedNPc.Name.TryLookup(Language.French, out string i18nNpcName)) {
+                    modifiedNPc.Name = i18nNpcName;
+                }
+                if (modifiedNPc.ShortName != null && modifiedNPc.ShortName.TryLookup(Language.French, out string i18nNpcShortName)) {
+                    modifiedNPc.ShortName = i18nNpcShortName;
+                }
+                
                 modifiedNPc.Configuration.Flags &= ~NpcConfiguration.Flag.OppositeGenderAnims;
             }
         }
